@@ -7,6 +7,7 @@ import urllib
 import urllib.request
 import re
 import config
+import numpy
 
 #设置UA，防止屏蔽
 opener=urllib.request.build_opener()
@@ -73,32 +74,63 @@ def fc2(channel):
             'live' : info['data']['channel_data']['is_publish'] == 1,
             'info' : info['data']['profile_data']['info'],
             'image' : info['data']['profile_data']['image'],
-            'title' : info['data']['profile_data']['name']
+            'title' : info['data']['profile_data']['name'],
+            'url' : 'fc2:'+str(channel)
         }
     except Exception as e:
         return {'live' : False}
 
+#获取参数
+def get(file):
+    if os.path.exists(file):
+        return numpy.load(file).item()
+    else:
+        return {}
+
+#保存参数
+def set(file,data):
+    numpy.save(file,data)
+
+#与上次状态对比，如有变化则更新
+def refresh(status,data,channel):
+    if channel in data:
+        if not status['live']:
+            del data[channel]
+            print("channel close",status)
+    else:
+        if status['live']:
+            data[channel] = True
+            print("channel open",status)
+            #todo推送消息
 
 def all():
     #检查twitcasting
+    tdata = get('tdata.npy')
     for channel in config.twitcastingList:
         print("check twitcasting",config.twitcastingList[channel])
         status = twitcasting(channel)
-        print(status['live'])
+        refresh(status,tdata,channel)
+    set('tdata.npy',tdata)
     #检查bilibili
+    bdata = get('bdata.npy')
     for channel in config.bilibiliList:
         print("check bilibili",config.bilibiliList[channel])
         status = bilibili(channel)
-        print(status['live'])
+        refresh(status,bdata,channel)
+    set('bdata.npy',bdata)
     #检查youtube
+    ydata = get('ydata.npy')
     for channel in config.youtubeList:
         print("check youtube",config.youtubeList[channel])
         status = youtube(channel)
-        print(status['live'])
+        refresh(status,ydata,channel)
+    set('ydata.npy',ydata)
     #检查fc2
+    fdata = get('fdata.npy')
     for channel in config.fc2List:
         print("check youtube",config.fc2List[channel])
         status = fc2(channel)
-        print(status['live'])
+        refresh(status,fdata,channel)
+    set('fdata.npy',fdata)
 all()
 
