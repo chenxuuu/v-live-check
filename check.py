@@ -98,10 +98,10 @@ def sendMqtt(data,name):
     client = mqtt.Client()
     try:
         #服务器请自行修改，需要传入参数
-        client.connect(sys.argv[0], 1883, 60)
+        client.connect(sys.argv[1], 1883, 60)
         data['name'] = name
         #topic请根据需要自行修改，需要传入参数
-        pub = client.publish("live/"+sys.argv[1],json.dumps(data,ensure_ascii=True))
+        pub = client.publish("live/"+sys.argv[2],json.dumps(data,ensure_ascii=True))
         pub.wait_for_publish()
         client.disconnect()
     except Exception as e:
