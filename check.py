@@ -67,7 +67,6 @@ def twitcasting(channel):
 
 
 def all():
-    return
     for channel in config.twitcastingList:
         print("check",config.twitcastingList[channel])
         status = twitcasting(channel)
