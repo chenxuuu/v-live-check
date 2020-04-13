@@ -10,7 +10,7 @@ import config
 
 #设置UA，防止屏蔽
 opener=urllib.request.build_opener()
-opener.addheaders=[('Mozilla/5.0 (Windows NT 10.0; Win64; rv:60.0) Gecko/20100101 Firefox/60.0')]
+opener.addheaders=[('User-Agent','Mozilla/5.0 (Windows NT 10.0; Win64; rv:60.0) Gecko/20100101 Firefox/60.0')]
 urllib.request.install_opener(opener)
 
 #检查youtube频道是否开启
@@ -30,8 +30,6 @@ def youtube(channel):
             'channel' : info['videoDetails']['channelId']
         }
     except Exception as e:
-        #print('shit')
-        #print(e)
         return {'live' : False}
 
 #检查bilibili直播间是否开启
@@ -65,20 +63,42 @@ def twitcasting(channel):
     except Exception as e:
         return {'live' : False}
 
+#检查fc2直播间是否开启
+def fc2(channel):
+    try:
+        url = "https://live.fc2.com/api/memberApi.php?channel=1&profile=1&user=1&streamid="+str(channel)
+        html = urllib.request.urlopen(url,timeout=5).read().decode('utf-8')
+        info = json.loads(html)
+        return {
+            'live' : info['data']['channel_data']['is_publish'] == 1,
+            'info' : info['data']['profile_data']['info'],
+            'image' : info['data']['profile_data']['image'],
+            'title' : info['data']['profile_data']['name']
+        }
+    except Exception as e:
+        return {'live' : False}
+
 
 def all():
+    #检查twitcasting
     for channel in config.twitcastingList:
-        print("check",config.twitcastingList[channel])
+        print("check twitcasting",config.twitcastingList[channel])
         status = twitcasting(channel)
         print(status['live'])
+    #检查bilibili
     for channel in config.bilibiliList:
-        print("check",config.bilibiliList[channel])
+        print("check bilibili",config.bilibiliList[channel])
         status = bilibili(channel)
         print(status['live'])
     #检查youtube
     for channel in config.youtubeList:
-        print("check",config.youtubeList[channel])
+        print("check youtube",config.youtubeList[channel])
         status = youtube(channel)
+        print(status['live'])
+    #检查fc2
+    for channel in config.fc2List:
+        print("check youtube",config.fc2List[channel])
+        status = fc2(channel)
         print(status['live'])
 all()
 

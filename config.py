@@ -65,3 +65,7 @@ twitcastingList = {
 'merrysan_cas_' : '球王🏀', #球王
 }
 
+#要监控的fc2频道
+fc2List = {
+'78847652' : "shiori🍄",#大姐
+}
