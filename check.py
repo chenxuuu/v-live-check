@@ -8,6 +8,8 @@ import urllib.request
 import re
 import config
 import numpy
+import paho.mqtt.client as mqtt
+import paho.mqtt.publish as publish
 
 #设置UA，防止屏蔽
 opener=urllib.request.build_opener()
@@ -91,8 +93,22 @@ def get(file):
 def set(file,data):
     numpy.save(file,data)
 
+#推送消息到mqtt
+def sendMqtt(data,name):
+    client = mqtt.Client()
+    try:
+        #服务器请自行修改，需要传入参数
+        client.connect(sys.argv[0], 1883, 60)
+        data['name'] = name
+        #topic请根据需要自行修改，需要传入参数
+        pub = client.publish("live/"+sys.argv[1],json.dumps(data,ensure_ascii=True))
+        pub.wait_for_publish()
+        client.disconnect()
+    except Exception as e:
+        print(e)
+
 #与上次状态对比，如有变化则更新
-def refresh(status,data,channel):
+def refresh(status,data,channel,name):
     if channel in data:
         if not status['live']:
             del data[channel]
@@ -101,36 +117,39 @@ def refresh(status,data,channel):
         if status['live']:
             data[channel] = True
             print("channel open",status)
-            #todo推送消息
+            #推送消息
+            sendMqtt(status,name)
 
+
+#执行任务
 def all():
     #检查twitcasting
     tdata = get('tdata.npy')
     for channel in config.twitcastingList:
         print("check twitcasting",config.twitcastingList[channel])
         status = twitcasting(channel)
-        refresh(status,tdata,channel)
+        refresh(status,tdata,channel,config.twitcastingList[channel])
     set('tdata.npy',tdata)
     #检查bilibili
     bdata = get('bdata.npy')
     for channel in config.bilibiliList:
         print("check bilibili",config.bilibiliList[channel])
         status = bilibili(channel)
-        refresh(status,bdata,channel)
+        refresh(status,bdata,channel,config.bilibiliList[channel])
     set('bdata.npy',bdata)
     #检查youtube
     ydata = get('ydata.npy')
     for channel in config.youtubeList:
         print("check youtube",config.youtubeList[channel])
         status = youtube(channel)
-        refresh(status,ydata,channel)
+        refresh(status,ydata,channel,config.youtubeList[channel])
     set('ydata.npy',ydata)
     #检查fc2
     fdata = get('fdata.npy')
     for channel in config.fc2List:
-        print("check youtube",config.fc2List[channel])
+        print("check fc2",config.fc2List[channel])
         status = fc2(channel)
-        refresh(status,fdata,channel)
+        refresh(status,fdata,channel,config.fc2List[channel])
     set('fdata.npy',fdata)
 all()
 
