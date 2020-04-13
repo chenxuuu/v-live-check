@@ -83,7 +83,7 @@ def fc2(channel):
 #获取参数
 def get(file):
     if os.path.exists(file):
-        return numpy.load(file).item()
+        return numpy.load(file, allow_pickle=True).item()
     else:
         return {}
 
