@@ -19,7 +19,6 @@ youtubeList = {
 'UCGcD5iUDG8xiywZeeDxye-A' : '织田信姬🍡', #织田信
 'UCXTpFs_3PqI41qX2d9tL2Rw' : '紫咲诗音🌙', #诗音
 'UCt0clH12Xk1-Ej5PXKGfdPA' : '♥️♠️物述有栖♦️♣️', #♥️♠️物述有栖♦️♣️
-#'UCNMG8dXjgqxS94dHljP9duQ' : 'yyut🎹', #yyut
 }
 
 #要监控的b站频道
@@ -49,12 +48,9 @@ twitcastingList = {
 'morinaga_miu' : '森永miu🍫', #miu
 'norioo_' : '海苔男🍡', #海苔男
 'natsuiromatsuri' : '夏色祭🏮', #夏色祭
-#'kagura_pepper' : '神乐七奈🌶', #狗妈
 'c:yumeno_shiori' : 'shiori大姐🍄', #p家大姐
 'maturin_love221' : '爱小姐☂︎', #test
-#'nana_kaguraaa' : '神乐七奈🌶', #狗妈
 're2_takatsuki' : '高槻律🚺', #律
-#'hukkatunoyuyuta' : 'ゆゆうた🎹', #yyut
 'merrysan_cas_' : '球王🏀', #球王
 }
 
