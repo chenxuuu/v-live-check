@@ -158,6 +158,6 @@ def all():
         status = fc2(channel)
         refresh(status,fdata,channel,config.fc2List[channel])
     set('fdata.npy',fdata)
-    print(done)
+    print('done')
 all()
 
