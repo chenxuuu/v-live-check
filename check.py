@@ -93,8 +93,8 @@ def get(file):
 def set(file,data):
     numpy.save(file,data)
 
-#推送消息到mqtt
-def sendMqtt(data,name):
+#推送消息到mqtt和telegram
+def sendMessage(data,name):
     client = mqtt.Client()
     try:
         #服务器请自行修改，需要传入参数
@@ -104,12 +104,15 @@ def sendMqtt(data,name):
         pub = client.publish("live/"+sys.argv[2],json.dumps(data,ensure_ascii=True))
         pub.wait_for_publish()
         client.disconnect()
+
+        #telegram机器人参数自行修改
         text = data['name']+"\r\n"
         if 'title' in data:
             text = text+data['title']+"\r\n"
         text = text+data['url']
         url = "https://api.telegram.org/"+sys.argv[3]+"/sendPhoto?chat_id="+sys.argv[4]+"&photo="+urllib.parse.quote(data['image'])
         url = url+"&caption="+urllib.parse.quote(text)
+        print(url)
         html = urllib.request.urlopen(url,timeout=5).read().decode('utf-8')
     except Exception as e:
         print(e)
@@ -125,7 +128,7 @@ def refresh(status,data,channel,name):
             data[channel] = True
             print("channel open",status)
             #推送消息
-            sendMqtt(status,name)
+            sendMessage(status,name)
 
 
 #执行任务
