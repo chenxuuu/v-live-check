@@ -104,6 +104,13 @@ def sendMqtt(data,name):
         pub = client.publish("live/"+sys.argv[2],json.dumps(data,ensure_ascii=True))
         pub.wait_for_publish()
         client.disconnect()
+        text = data['name']+"\r\n"
+        if 'title' in data:
+            text = text+data['title']+"\r\n"
+        text = text+data['url']
+        url = "https://api.telegram.org/"+sys.argv[3]+"/sendPhoto?chat_id="+sys.argv[4]+"&photo="+urllib.parse.quote(data['image'])
+        url = url+"&caption="+urllib.parse.quote(text)
+        html = urllib.request.urlopen(url,timeout=5).read().decode('utf-8')
     except Exception as e:
         print(e)
 
@@ -126,30 +133,31 @@ def all():
     #检查twitcasting
     tdata = get('tdata.npy')
     for channel in config.twitcastingList:
-        print("check twitcasting",config.twitcastingList[channel])
+        #print("check twitcasting",config.twitcastingList[channel])
         status = twitcasting(channel)
         refresh(status,tdata,channel,config.twitcastingList[channel])
     set('tdata.npy',tdata)
     #检查bilibili
     bdata = get('bdata.npy')
     for channel in config.bilibiliList:
-        print("check bilibili",config.bilibiliList[channel])
+        #print("check bilibili",config.bilibiliList[channel])
         status = bilibili(channel)
         refresh(status,bdata,channel,config.bilibiliList[channel])
     set('bdata.npy',bdata)
     #检查youtube
     ydata = get('ydata.npy')
     for channel in config.youtubeList:
-        print("check youtube",config.youtubeList[channel])
+        #print("check youtube",config.youtubeList[channel])
         status = youtube(channel)
         refresh(status,ydata,channel,config.youtubeList[channel])
     set('ydata.npy',ydata)
     #检查fc2
     fdata = get('fdata.npy')
     for channel in config.fc2List:
-        print("check fc2",config.fc2List[channel])
+        #print("check fc2",config.fc2List[channel])
         status = fc2(channel)
         refresh(status,fdata,channel,config.fc2List[channel])
     set('fdata.npy',fdata)
+    print('done')
 all()
 
