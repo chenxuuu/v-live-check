@@ -16,7 +16,7 @@ youtubeList = {
 'UCPf-EnX70UM7jqjKwhDmS8g' : '玛格罗那🐟', #魔王*
 'UCZ1WJDkMNiZ_QwHnNrVf7Pw' : '饼叽🐥', #饼叽*
 'UCzAxQCoeJrmYkHr0cHfD0Nw' : 'yua🔯', #yua*
-'UCGcD5iUDG8xiywZeeDxye-A' : '织田信姬🍡', #织田信
+#'UCGcD5iUDG8xiywZeeDxye-A' : '织田信姬🍡', #织田信
 'UCXTpFs_3PqI41qX2d9tL2Rw' : '紫咲诗音🌙', #诗音
 'UCt0clH12Xk1-Ej5PXKGfdPA' : '♥️♠️物述有栖♦️♣️', #♥️♠️物述有栖♦️♣️
 }
@@ -40,6 +40,7 @@ bilibiliList = {
 7811723 : '小狐狸Soy🌸',#soy
 21132965 : '紫咲诗音🌙', #紫咲诗音
 21449083 : '♥️♠️物述有栖♦️♣️',#♥️♠️物述有栖♦️♣️
+6632844 : '伃珍公主🦋',#Hime_sun
 }
 
 #要监控的twitcasting频道
@@ -49,7 +50,7 @@ twitcastingList = {
 'norioo_' : '海苔男🍡', #海苔男
 'natsuiromatsuri' : '夏色祭🏮', #夏色祭
 'c:yumeno_shiori' : 'shiori大姐🍄', #p家大姐
-'maturin_love221' : '爱小姐☂︎', #test
+#'maturin_love221' : '爱小姐☂︎', #test
 're2_takatsuki' : '高槻律🚺', #律
 'merrysan_cas_' : '球王🏀', #球王
 }
