@@ -33,7 +33,7 @@ def youtube(channel):
             'channel' : info['videoDetails']['channelId']
         }
     except Exception as e:
-        return {'live' : False}
+        return {'live' : False, 'error' = e}
 
 #检查bilibili直播间是否开启
 def bilibili(id):
@@ -48,7 +48,7 @@ def bilibili(id):
             'url' : "https://live.bilibili.com/"+str(id)
         }
     except Exception as e:
-        return {'live' : False}
+        return {'live' : False, 'error' = e}
 
 #检查twitcasting直播间是否开启
 def twitcasting(channel):
@@ -64,7 +64,7 @@ def twitcasting(channel):
             'image' : "https:"+info['posterImage']
         }
     except Exception as e:
-        return {'live' : False}
+        return {'live' : False, 'error' = e}
 
 #检查fc2直播间是否开启
 def fc2(channel):
@@ -80,7 +80,7 @@ def fc2(channel):
             'url' : 'fc2:'+str(channel)
         }
     except Exception as e:
-        return {'live' : False}
+        return {'live' : False, 'error' = e}
 
 #获取参数
 def get(file):
@@ -119,6 +119,9 @@ def sendMessage(data,name):
 
 #与上次状态对比，如有变化则更新
 def refresh(status,data,channel,name):
+    if 'error' in status:#如果运行有错误
+        print("get status error",channel,name,e)
+        return
     if channel in data:
         if not status['live']:
             del data[channel]
