@@ -23,6 +23,8 @@ def youtube(channel):
         html = urllib.request.urlopen(url,timeout=5).read().decode('utf-8')
         infore = re.compile(r'ytplayer.config *= *(.+?});',re.DOTALL)
         matchObj = infore.findall(html)
+        if len(matchObj) == 0:
+            return {'live' : False}
         infoAll = json.loads(matchObj[0])
         info = json.loads(infoAll['args']['player_response'])
         return {
@@ -57,6 +59,8 @@ def twitcasting(channel):
         html = urllib.request.urlopen(url,timeout=5).read().decode('utf-8')
         infore = re.compile(r'TwicasPlayer.start\((.+?})\);',re.DOTALL)
         matchObj = infore.findall(html)
+        if len(matchObj) == 0:
+            return {'live' : False}
         info = json.loads(matchObj[0])
         return {
             'live' : info['isOnlive'],
