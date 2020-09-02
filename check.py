@@ -27,13 +27,16 @@ def youtube(channel):
             return {'live' : False}
         infoAll = json.loads(matchObj[0])
         info = json.loads(infoAll['args']['player_response'])
-        return {
-            'live' : info['videoDetails']['isLive'],
-            'title' : info['videoDetails']['title'],
-            'url' : "https://youtu.be/"+info['videoDetails']['videoId'],
-            'image' : info['videoDetails']['thumbnail']['thumbnails'][len(info['videoDetails']['thumbnail']['thumbnails'])-1]['url'],
-            'channel' : info['videoDetails']['channelId']
-        }
+        try:
+            return {
+                'live' : info['videoDetails']['isLive'],
+                'title' : info['videoDetails']['title'],
+                'url' : "https://youtu.be/"+info['videoDetails']['videoId'],
+                'image' : info['videoDetails']['thumbnail']['thumbnails'][len(info['videoDetails']['thumbnail']['thumbnails'])-1]['url'],
+                'channel' : info['videoDetails']['channelId']
+            }
+        except Exception as e:
+            return {'live' : False}
     except Exception as e:
         return {'live' : False, 'error' : e}
 
