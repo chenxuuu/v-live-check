@@ -120,7 +120,7 @@ def sendMessage(data,name):
 #与上次状态对比，如有变化则更新
 def refresh(status,data,channel,name):
     if 'error' in status:#如果运行有错误
-        print("get status error",channel,name,e)
+        print("get status error",channel,name,status['error'])
         return
     if channel in data:
         if not status['live']:
